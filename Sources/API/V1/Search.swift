@@ -15,11 +15,17 @@ extension V1.Search {
     public struct Search: Request {
         
         // TODO: Support Filter, Sort,
-        public init(query: String) {
+        public init(query: String, pagination: PaginationParameter = .default) {
             struct Parameter: Encodable {
                 let query: String
+                let startCursor: String?
+                let pageSize: Int32?
             }
-            let parameter = Parameter(query: query)
+            let parameter = Parameter(
+                query: query,
+                startCursor: pagination.startCursor,
+                pageSize: pagination.pageSize
+            )
             httpBody = ParameterEncoder().encode(parameter)
         }
         
